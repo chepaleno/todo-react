@@ -1,0 +1,65 @@
+.boob__title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.AddBoobInput {
+  margin-bottom: 20px;
+}
+
+.boobListItem {
+  display: flex;
+
+  .full-width {
+    flex: 1 1 100%;
+  }
+
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+
+  &:hover {
+    color: var(--color-dark-2);
+    background-color: transparent;
+  }
+
+}
+
+.boob__input__is__read {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.boob__delete__button {
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+  background-color: #e74c3c;
+}
+
+.boob__delete__button:hover {
+  background-color: darkred; 
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0%;
+}
+
+/* .filtred__button input{
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #4f46e5
+} */
+
+.boob__stats {
+  font-weight: 600;
+}
+
+.add__boob__button {
+  display: flex;
+  justify-content: flex-end
+}
