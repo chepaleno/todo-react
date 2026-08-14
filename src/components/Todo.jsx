@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AddTaskForm from "./AddTaskForm";
 import SearchTaskForm from "./SearchTaskForm";
 import TodoInfo from "./TodoInfo";
 import TodoList from "./TodoList";
+import Button from "./Button";
+
 
 const Todo = () => {
   const [tasks, setTasks] = useState(() => {
@@ -19,6 +21,10 @@ const Todo = () => {
 
   const [newInput, setNewInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const newTaskInputRef = useRef(null)
+  const firstIncomleteTaskRef = useRef(null)
+  const firstIncompliteTaskId = tasks.find(({isDone}) => !isDone)?.id
 
   const OnDeleteAllTasksButtonClick = () => {
     const isConfirmed = confirm(
@@ -48,6 +54,7 @@ const Todo = () => {
   };
 
   const addTask = () => {
+    
     const newTask = {
       id: Date.now().toString(),
       title: newInput,
@@ -56,6 +63,7 @@ const Todo = () => {
     setTasks([...tasks, newTask]);
     setNewInput("");
     setSearchQuery("")
+    newTaskInputRef.current.focus()
   };
 
   const smartSearch = (query) => {
@@ -69,6 +77,10 @@ const Todo = () => {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect (() => {
+    newTaskInputRef.current.focus()
+  },[])
 
   const clearSearchQuery = searchQuery.trim().toLocaleLowerCase()
   const filteredTasks = clearSearchQuery.length > 0
@@ -84,11 +96,15 @@ const Todo = () => {
         addTask={addTask}
         newInput={newInput}
         setNewInput={setNewInput}
+        newTaskInputRef={newTaskInputRef}
       />
       <SearchTaskForm
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
+      <Button onClick={() => firstIncomleteTaskRef.current?.scrollIntoView({ behaivor: 'smooth'})}>
+        Показать первую незавершенную задачу
+        </Button>
       <TodoInfo
         Total={tasks.length}
         Done={tasks.filter((task) => task.isDone === true).length}
@@ -97,6 +113,8 @@ const Todo = () => {
       <TodoList
         tasks={tasks}
         filteredTasks={filteredTasks}
+        firstIncomleteTaskRef={firstIncomleteTaskRef}
+        firstIncompliteTaskId={firstIncompliteTaskId}
         OnDeleteTasksButtonClick={OnDeleteTasksButtonClick}
         OnSuccesTasksButtonActivate={OnSuccesTasksButtonActivate}
       />
