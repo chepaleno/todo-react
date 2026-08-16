@@ -10,6 +10,7 @@ const AddBoobForm = (props) => {
     setNewAuthorInput,
     newYearInput,
     setNewYearInput,
+    navodchickRef,
   } = props;
   const onSubmit = (event) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ const AddBoobForm = (props) => {
         label="книга"
         value={newBoobInput}
         onInput={(event) => setNewBoobInput(event.target.value)}
+        inputref={navodchickRef}
       ></Field>
       <Field
         className="AddBoobInput"

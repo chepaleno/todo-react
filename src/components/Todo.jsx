@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import AddTaskForm from "./AddTaskForm";
 import SearchTaskForm from "./SearchTaskForm";
 import TodoInfo from "./TodoInfo";
 import TodoList from "./TodoList";
 import Button from "./Button";
-
+import { TaksContekst } from "./context/TaskContext";
 
 const Todo = () => {
   const [tasks, setTasks] = useState(() => {
@@ -22,11 +22,11 @@ const Todo = () => {
   const [newInput, setNewInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const newTaskInputRef = useRef(null)
-  const firstIncomleteTaskRef = useRef(null)
-  const firstIncompliteTaskId = tasks.find(({isDone}) => !isDone)?.id
+  const newTaskInputRef = useRef(null);
+  const firstIncomleteTaskRef = useRef(null);
+  const firstIncompliteTaskId = tasks.find(({ isDone }) => !isDone)?.id;
 
-  const OnDeleteAllTasksButtonClick = () => {
+  const OnDeleteAllTasksButtonClick = useCallback(() => {
     const isConfirmed = confirm(
       "ты уверен что хочешь удалить все свои особо важные задания???",
     );
@@ -34,7 +34,7 @@ const Todo = () => {
     if (isConfirmed) {
       setTasks([]);
     }
-  };
+  }, []);
 
   const OnDeleteTasksButtonClick = (taskID) => {
     setTasks(tasks.filter((task) => task.id !== taskID));
@@ -54,7 +54,6 @@ const Todo = () => {
   };
 
   const addTask = () => {
-    
     const newTask = {
       id: Date.now().toString(),
       title: newInput,
@@ -62,63 +61,74 @@ const Todo = () => {
     };
     setTasks([...tasks, newTask]);
     setNewInput("");
-    setSearchQuery("")
-    newTaskInputRef.current.focus()
-  };
-
-  const smartSearch = (query) => {
-    console.log(`он вписал:${query}`);
-  };
-
-  const smartInputButton = () => {
-    console.log("Форма отправлена");
+    setSearchQuery("");
+    newTaskInputRef.current.focus();
   };
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  useEffect (() => {
-    newTaskInputRef.current.focus()
-  },[])
+  useEffect(() => {
+    newTaskInputRef.current.focus();
+  }, []);
 
-  const clearSearchQuery = searchQuery.trim().toLocaleLowerCase()
-  const filteredTasks = clearSearchQuery.length > 0
-  ? tasks.filter(({title}) => title.toLocaleLowerCase().includes(clearSearchQuery)) 
-  : null
-
-
+  const clearSearchQuery = searchQuery.trim().toLocaleLowerCase();
+  const filteredTasks =
+    clearSearchQuery.length > 0
+      ? tasks.filter(({ title }) =>
+          title.toLocaleLowerCase().includes(clearSearchQuery),
+        )
+      : null;
 
   return (
-    <div className="todo">
-      <h1 className="todo__title">To Do List</h1>
-      <AddTaskForm
-        addTask={addTask}
-        newInput={newInput}
-        setNewInput={setNewInput}
-        newTaskInputRef={newTaskInputRef}
-      />
-      <SearchTaskForm
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <Button onClick={() => firstIncomleteTaskRef.current?.scrollIntoView({ behaivor: 'smooth'})}>
-        Показать первую незавершенную задачу
+    <TaksContekst.Provider
+      value={{
+        tasks,
+        filteredTasks,
+        firstIncomleteTaskRef,
+        firstIncompliteTaskId,
+        OnDeleteTasksButtonClick,
+        OnDeleteAllTasksButtonClick,
+        OnSuccesTasksButtonActivate,
+      }}
+    >
+      <div className="todo">
+        <h1 className="todo__title">To Do List</h1>
+        <AddTaskForm
+          addTask={addTask}
+          newInput={newInput}
+          setNewInput={setNewInput}
+          newTaskInputRef={newTaskInputRef}
+        />
+        <SearchTaskForm
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <Button
+          onClick={() =>
+            firstIncomleteTaskRef.current?.scrollIntoView({
+              behaivor: "smooth",
+            })
+          }
+        >
+          Показать первую незавершенную задачу
         </Button>
-      <TodoInfo
-        Total={tasks.length}
-        Done={tasks.filter((task) => task.isDone === true).length}
-        OnDeleteAllTasksButtonClick={OnDeleteAllTasksButtonClick}
-      />
-      <TodoList
-        tasks={tasks}
-        filteredTasks={filteredTasks}
-        firstIncomleteTaskRef={firstIncomleteTaskRef}
-        firstIncompliteTaskId={firstIncompliteTaskId}
-        OnDeleteTasksButtonClick={OnDeleteTasksButtonClick}
-        OnSuccesTasksButtonActivate={OnSuccesTasksButtonActivate}
-      />
-    </div>
+        <TodoInfo
+          Total={tasks.length}
+          Done={tasks.filter((task) => task.isDone === true).length}
+          OnDeleteAllTasksButtonClick={OnDeleteAllTasksButtonClick}
+        />
+        <TodoList
+          tasks={tasks}
+          filteredTasks={filteredTasks}
+          firstIncomleteTaskRef={firstIncomleteTaskRef}
+          firstIncompliteTaskId={firstIncompliteTaskId}
+          OnDeleteTasksButtonClick={OnDeleteTasksButtonClick}
+          OnSuccesTasksButtonActivate={OnSuccesTasksButtonActivate}
+        />
+      </div>
+    </TaksContekst.Provider>
   );
 };
 

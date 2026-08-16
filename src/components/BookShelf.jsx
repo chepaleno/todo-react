@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AddBoobForm from "./AddBoobForm";
 import BoobFilter from "./BoobFilter";
 import BoobInfo from "./BoobInfo";
@@ -11,6 +11,7 @@ const BookShelf = () => {
     const timerAPI = setTimeout(() => {
       setTimer(false);
     }, 1000);
+    return () => clearTimeout(timerAPI);
   }, []);
 
   const [boobs, setBoobs] = useState(() => {
@@ -35,6 +36,8 @@ const BookShelf = () => {
       },
     ];
   });
+
+  const navodchickRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("boobs", JSON.stringify(boobs));
@@ -91,11 +94,18 @@ const BookShelf = () => {
     }
   };
 
-  console.log(timer);
+  console.log(navodchickRef);
 
-  if (timer){
-    return (<div>Страница загружается</div>)
-  } {
+  useEffect(() => {
+    if (timer === false) {
+      navodchickRef.current.focus();
+    }
+  }, [timer]);
+
+  if (timer) {
+    return <div>Страница загружается</div>;
+  }
+  {
     return (
       <div className="boob">
         <h1 className="boob__title">📚 Книжная полка</h1>
@@ -108,6 +118,7 @@ const BookShelf = () => {
           setNewAuthorInput={setNewAuthorInput}
           newYearInput={newYearInput}
           setNewYearInput={setNewYearInput}
+          navodchickRef={navodchickRef}
         />
         <BoobFilter filter={filter} setFilter={setFilter} />
         <BoobInfo boobs={boobs} />
