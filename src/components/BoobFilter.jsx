@@ -1,5 +1,8 @@
-const BoobFilter = (props) => {
-  const { filter, setFilter } = props;
+import { useContext } from "react";
+import { BoobContext } from "./context/BoobContext";
+
+const BoobFilter = () => {
+  const { filter, setFilter } = useContext(BoobContext)
   return (
     <>
       <div>🔎 Фильтр:</div>

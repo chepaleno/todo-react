@@ -1,5 +1,8 @@
-const BoobInfo = (props) => {
-  const { boobs, } = props;
+import { useContext } from "react";
+import { BoobContext } from "./context/BoobContext";
+
+const BoobInfo = () => {
+  const { boobs } = useContext(BoobContext);
   const filtredBoobs = boobs.filter((boob) => boob.isRead === true)
   return (
     <div className="boob__stats">

@@ -1,0 +1,30 @@
+{
+  "tasks": [
+    {
+      "title": "qweqwe",
+      "isDone": true,
+      "id": "QpDqH4UU6ic"
+    },
+    {
+      "title": "ee",
+      "isDone": false,
+      "id": "jT_ql_w7RME"
+    },
+    {
+      "title": "пример",
+      "isDone": false,
+      "id": "123"
+    },
+    {
+      "title": "qwe",
+      "isDone": false,
+      "id": "H1NpG_z3xbY"
+    },
+    {
+      "title": "уйцуу",
+      "isDone": false,
+      "id": "wfSgDWUSDjM"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
