@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback, useContext } from "react";
-import AddTaskForm from "../AddTaskForm";
-import SearchTaskForm from "../SearchTaskForm/SearchTaskForm";
-import TodoInfo from "../TodoInfo/TodoInfo";
-import TodoList from "../TodoList/TodoList";
-import Button from "../Button/Button";
-import { TasksContext } from "../context/TasksContext";
+import { useContext } from "react";
+import AddTaskForm from "@/components/AddTaskForm";
+import SearchTaskForm from "@/components/SearchTaskForm/SearchTaskForm";
+import TodoInfo from "@/components/TodoInfo/TodoInfo";
+import TodoList from "@/components/TodoList/TodoList";
+import Button from "@/components/Button/Button";
+import { TasksContext } from "@/components/context/TasksContext";
 import styles from './todo.module.css'
 
 const Todo = () => {

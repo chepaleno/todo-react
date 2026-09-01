@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import tasksAPI from "../api/tasksAPI";
+import tasksAPI from "@/api/tasksAPI";
 
 const useTasks = () => {
     const [tasks, setTasks] = useState([]);
 
     const [newInput, setNewInput] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const [disappearingTaskId, setDisappearingTaskId] = useState(null);
+    const [appearingTaskId, setAppearingTaskId] = useState(null);
 
     const newTaskInputRef = useRef(null);
 
@@ -22,7 +24,8 @@ const useTasks = () => {
     const OnDeleteTasksButtonClick = (taskID) => {
         tasksAPI.deleteOne(taskID)
             .then(() => {
-                setTasks(tasks.filter((task) => task.id !== taskID))
+                setDisappearingTaskId(taskID)
+                setTimeout(() => { setTasks(tasks.filter((task) => task.id !== taskID)); setDisappearingTaskId(null) }, 0)
             })
     };
 
@@ -57,9 +60,14 @@ const useTasks = () => {
                     setNewInput("");
                     setSearchQuery("");
                     newTaskInputRef.current.focus();
+                    setAppearingTaskId(addedTask.id)
+                    setTimeout(() => {
+                        setAppearingTaskId(null)
+                    }, 400)
                 })
         }
     };
+
 
     useEffect(() => {
         newTaskInputRef.current.focus();
@@ -73,7 +81,7 @@ const useTasks = () => {
             ? tasks.filter(({ title }) =>
                 title.toLocaleLowerCase().includes(clearSearchQuery),
             )
-            : null;
+            : tasks;
 
     return {
         tasks,
@@ -86,7 +94,9 @@ const useTasks = () => {
         setNewInput,
         newTaskInputRef,
         searchQuery,
-        setSearchQuery
+        setSearchQuery,
+        disappearingTaskId,
+        appearingTaskId,
     }
 }
 

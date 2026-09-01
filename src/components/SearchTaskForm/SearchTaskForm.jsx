@@ -1,5 +1,5 @@
-import Field from "../Field/Field";
-import { TasksContext } from "../context/TasksContext";
+import Field from "@/components/Field/Field";
+import { TasksContext } from "@/components/context/TasksContext";
 import { useContext } from "react";
 
 const SearchTaskForm = (props) => {

@@ -1,6 +1,6 @@
-import Router from "./Router";
-import TaskPage from "./pages/TaskPage";
-import TasksPage from "./pages/TasksPage";
+import Router from "@/Router";
+import TaskPage from "@/pages/TaskPage";
+import TasksPage from "@/pages/TasksPage";
 
 // // import Todo from "./components/Todo";
 // import BookShelf from "./components/BookShelf";

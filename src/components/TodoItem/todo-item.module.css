@@ -5,25 +5,45 @@
   padding-left: 10px;
   border: var(--border);
   border-radius: var(--border-radius);
+  transition: 
+    opacity calc(var(--transition-duration) * 2) ease-out,
+    transform calc(var(--transition-duration) * 2) ease-out,
+    max-height calc(var(--transition-duration) * 2) ease-out,
+    padding calc(var(--transition-duration) * 2) ease-out,
+    border-width calc(var(--transition-duration) * 2) ease-out;
 
   &:hover {
     background-color: var(--color-gray-1);
   }
 
-  &.is-disappearing {
+  /* &.isDisappearing {
     opacity: 0;
     translate: 0 -75%;
     transition-duration: calc(var(--transition-duration) * 2);
     pointer-events: none;
 
-    & ~ .item {
+    &~.item {
       translate: 0 calc((100% + var(--todoListRowGap)) * -1);
       transition-delay: var(--transition-duration);
       transition-duration: var(--transition-duration);
       pointer-events: none;
     }
+  } */                                                 /* работает очень странно*/
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(-75%);
+    }
+  }
+
+    &.isAppearing {
+    opacity: 0;
+    transform: translateY(-75%);
+    pointer-events: none;
   }
 }
+
 
 .checkbox {
   flex-shrink: 0;
@@ -39,7 +59,7 @@
     background-color: var(--color-dark-2);
     border-color: var(--color-dark-2);
 
-    & + .label {
+    &+.label {
       color: var(--color-gray-4);
       text-decoration: line-through;
     }

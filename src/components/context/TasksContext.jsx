@@ -1,7 +1,6 @@
 import { createContext } from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
-import useTasks from "../../hooks/useTasks";
-import useIncompleteTask from "../../hooks/useIncompleteTask";
+import useTasks from "@/hooks/useTasks";
+import useIncompleteTask from "@/hooks/useIncompleteTask";
 
 export const TasksContext = createContext({});
 
@@ -19,6 +18,8 @@ export const TasksProvider = (props) => {
     newTaskInputRef,
     searchQuery,
     setSearchQuery,
+    disappearingTaskId,
+    appearingTaskId,
   } = useTasks();
 
   const { firstIncomleteTaskRef, firstIncompliteTaskId } = useIncompleteTask(tasks)
@@ -39,6 +40,8 @@ export const TasksProvider = (props) => {
         newTaskInputRef,
         searchQuery,
         setSearchQuery,
+        disappearingTaskId,
+        appearingTaskId,
       }}
     >
       {children}

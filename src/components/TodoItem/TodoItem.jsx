@@ -1,22 +1,26 @@
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "@/components/context/TasksContext";
 import { useContext } from "react";
-import RouterLink from "../RouterLink/RouterLink";
-import styles from './todo-item.module.css'
+import RouterLink from "@/components/RouterLink/RouterLink";
+import styles from "./todo-item.module.css";
 
 const TodoItem = (props) => {
-  const { className = "", id, title, isDone, ref,} = props;
+  const { className = "", id, title, isDone } = props;
 
   const {
-    tasks = [],
     OnDeleteTasksButtonClick,
     OnSuccesTasksButtonActivate,
     firstIncomleteTaskRef,
     firstIncompliteTaskId,
+    disappearingTaskId,
+    appearingTaskId,
   } = useContext(TasksContext);
 
   return (
     <li
-      className={`${styles.item} ${className}`}
+      className={`${styles.item} ${className} 
+      ${disappearingTaskId === id ? styles.isDisappearing : ""}
+      ${appearingTaskId === id ? styles.isAppearing : ""}
+      `}
       ref={id === firstIncompliteTaskId ? firstIncomleteTaskRef : null}
     >
       <input
@@ -31,7 +35,7 @@ const TodoItem = (props) => {
       <label className={`${styles.label} visually-hidden`} htmlFor={id}>
         {title}
       </label>
-      <RouterLink to={`/tasks/${id}`} aria-label='Task detail page'>
+      <RouterLink to={`/tasks/${id}`} aria-label="Task detail page">
         {title}
       </RouterLink>
       <button

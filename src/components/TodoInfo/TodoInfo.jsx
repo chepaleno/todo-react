@@ -1,5 +1,5 @@
-import { memo, use, useContext, useMemo } from "react";
-import { TasksContext } from "../context/TasksContext";
+import { memo, useContext, useMemo } from "react";
+import { TasksContext } from "@/components/context/TasksContext";
 
 const TodoInfo = (props) => {
   const { styles } = props;
