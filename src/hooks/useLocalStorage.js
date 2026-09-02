@@ -1,4 +1,4 @@
-const useLibrarySave = () => {
+const useTasksLocalStorage = () => {
     const savedTasks = localStorage.getItem("tasks");
 
     const saveTasks = (tasks) => { localStorage.setItem("tasks", JSON.stringify(tasks)) };
@@ -9,4 +9,4 @@ const useLibrarySave = () => {
     }
 }
 
-export default useLibrarySave
+export default useTasksLocalStorage

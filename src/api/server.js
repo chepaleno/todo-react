@@ -4,7 +4,7 @@ const headers = {
     'Content-Type': 'application/json',
 }
 
-const tasksAPI = {
+const serverAPI = {
     getAll: (setTasks) => {
         return fetch(URL)
             .then((response) => response.json())
@@ -28,11 +28,8 @@ const tasksAPI = {
     },
 
     deleteAll: (tasks, setTasks) => {
-        return Promise.all(tasks.map(({ id }) => fetch(`${URL}/${id}`,
-            { method: 'DELETE' })
-        ).then(setTasks([])))
+        return Promise.all(tasks.map(({ id }) => fetch(`${URL}/${id}`, { method: 'DELETE' })))
     },
-
     isDone: (isDone, taskID,) => {
         {
             return fetch(`${URL}/${taskID}`,
@@ -59,6 +56,16 @@ const tasksAPI = {
         })
             .then((response) => response.json())
     },
+
+    toggleComplete: (taskID, isDone) => {
+        return fetch(`${URL}/${taskID}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ isDone })
+        });
+    },
 }
 
-export default tasksAPI
+export default serverAPI
